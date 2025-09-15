@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -43,11 +45,16 @@ public class UserDaoImp implements UserDao {
         );
         query.setParameter("model", model);
         query.setParameter("series", series);
+        query.setMaxResults(1); // явно ограничила выборку одним результатом
 
         try {
             return query.getSingleResult();
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             return null;
+        } catch (NonUniqueResultException e) {
+            // если все же найдено несколько автомобилей, возвращаем первый найденный
+            List<User> results = query.getResultList();
+            return results.isEmpty() ? null : results.get(0);
         }
     }
 }

@@ -21,12 +21,16 @@ public class MainApp {
        Car car2 = new Car("Honda", 2021);
        Car car3 = new Car("BMW", 2022);
        Car car4 = new Car("Mercedes", 2023);
+       Car car5 = new Car("BMW", 2022);
+       Car car6 = new Car("BMW", 2022);
 
        // Создаем пользователей с машинами
        userService.add(new User("User1", "Lastname1", "user1@mail.ru", car1));
        userService.add(new User("User2", "Lastname2", "user2@mail.ru", car2));
        userService.add(new User("User3", "Lastname3", "user3@mail.ru", car3));
        userService.add(new User("User4", "Lastname4", "user4@mail.ru", car4));
+       userService.add(new User("User5", "Lastname5", "user5@mail.ru", car5));
+       userService.add(new User("User6", "Lastname6", "user5@mail.ru", car6));
 
        // Выводим всех пользователей
        List<User> users = userService.listUsers();
