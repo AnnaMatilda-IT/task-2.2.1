@@ -45,16 +45,10 @@ public class UserDaoImp implements UserDao {
         );
         query.setParameter("model", model);
         query.setParameter("series", series);
-        query.setMaxResults(1); // явно ограничила выборку одним результатом
-
-        try {
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        } catch (NonUniqueResultException e) {
-            // если все же найдено несколько автомобилей, возвращаем первый найденный
-            List<User> results = query.getResultList();
-            return results.isEmpty() ? null : results.get(0);
-        }
+        // получила стрим результатов, потом взяла первый элемент,
+        // если в выборке нет подходящего результата - вернула null
+        return query.getResultStream()
+                .findFirst()
+                .orElse(null);
     }
 }
